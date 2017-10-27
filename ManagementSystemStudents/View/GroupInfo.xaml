@@ -1,0 +1,115 @@
+﻿<Window x:Class="ManagementSystemStudents.GroupInfo"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ManagementSystemStudents"
+        mc:Ignorable="d"
+       Title="GroupInfo" Height="600" Width="700" >
+
+
+    <Window.Resources>
+        <CollectionViewSource x:Key="CaptainsCollection" Source="{Binding Path=StudentsLink}"/>
+        <CollectionViewSource x:Key="LecturesCollection" Source="{Binding Path=LecturesList}"/>
+
+        <Style TargetType="TextBlock">
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="Margin" Value="20,0,0,0" />
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="MinHeight" Value="25"/>
+            <Setter Property="MinWidth" Value="50"/>
+            <Setter Property="Margin" Value="20,0,20,20"/>
+
+        </Style>
+
+        <Style TargetType="ComboBox">
+            <Setter Property="MinHeight" Value="25"/>
+            <Setter Property="MinWidth" Value="50"/>
+            <Setter Property="Margin" Value="20,0,20,20"/>
+
+        </Style>
+
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.8*" />
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.5*"/>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="0.5*"/>
+        </Grid.RowDefinitions>
+
+
+        <TextBlock Grid.Column="0" Text ="Students of Group" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"></TextBlock>
+        <TextBlock Grid.Column="1" Text ="Group Information" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"></TextBlock>
+
+
+        <ListView ItemsSource="{Binding StudentsLink}" Grid.Column="0" Grid.Row="1" Margin="20,0,0,0">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Border Background="LightGray" Padding="10">
+                        <StackPanel>
+                            <TextBlock Text="{Binding DisplayName}" FontWeight="Bold"/>
+                        </StackPanel>
+                    </Border>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <DockPanel Grid.Row="2" Grid.Column="1" LastChildFill="True" >
+            <Button DockPanel.Dock="Left" Content="Add Subject" MinHeight="35" Margin="20,10,20,10" Command="{Binding AddSubject}"/>
+            <Button DockPanel.Dock="Left" Content="Del Subject" MinHeight="35" Margin="0,10,20,10" Command="{Binding DelSubject}" CommandParameter="{Binding Group.SelectedTerm.SelectedTeacher}"/>
+            <Button Name="DisbandButton" DockPanel.Dock="Right" Content="Delete Group" MinHeight="35" Margin="20,10,20,10"/>
+            <Button Name="DeleteButton" DockPanel.Dock="Right" Content="Disband" MinHeight="35" Command="{Binding Disband}"  Margin="10,10,0,10"/>
+
+        </DockPanel>
+        <Button Grid.Row="2" Content="Save" MinHeight="35" Margin="20,10,0,10" Command="{Binding Save}"/>
+
+
+
+        <StackPanel Grid.Row="1" Grid.Column="1" VerticalAlignment="Stretch">
+            <TextBlock Text="Group number" />
+            <TextBox Text="{Binding Group.GroupNum, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBlock Text="Captain" />
+            <ComboBox SelectedItem="{Binding Group.Captain}" DisplayMemberPath="DisplayName">
+                <ComboBox.ItemsSource>
+                    <CompositeCollection>
+                        <CollectionContainer Collection="{Binding Source={StaticResource CaptainsCollection}}"/>
+                    </CompositeCollection>
+                </ComboBox.ItemsSource>
+            </ComboBox>
+            <TextBlock Text="DisbannedStatus" />
+            <ComboBox SelectedItem="{Binding Group.IsDisbanded}" IsEnabled="False" SelectedIndex="0">
+                <ComboBoxItem>False</ComboBoxItem>
+            </ComboBox>
+            <TextBlock Text="Term" />
+            <ComboBox ItemsSource="{Binding Group.Terms, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding Group.SelectedTerm, UpdateSourceTrigger=PropertyChanged}">
+            </ComboBox>
+            <TextBlock Text="Subjects info"></TextBlock>
+            <ListView ItemsSource="{Binding Group.SelectedTerm.Teachers}" SelectedItem="{Binding Group.SelectedTerm.SelectedTeacher}" Margin="20,0,20,20" MinHeight="130" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Lecture" Width="80" DisplayMemberBinding="{Binding Path=Name}"/>
+                        <!--<GridViewColumn Header="Subject" Width="200" DisplayMemberBinding="{Binding Path=S}" /> -->
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </StackPanel>
+
+
+
+
+
+    </Grid>
+</Window>

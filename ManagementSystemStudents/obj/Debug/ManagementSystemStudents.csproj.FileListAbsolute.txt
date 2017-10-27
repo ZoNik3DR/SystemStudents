@@ -1,0 +1,45 @@
+c:\users\kiril\documents\visual studio 2017\Projects\ManagementSystemStudents\ManagementSystemStudents\obj\Debug\ManagementSystemStudents.csprojResolveAssemblyReference.cache
+c:\users\kiril\documents\visual studio 2017\Projects\ManagementSystemStudents\ManagementSystemStudents\obj\Debug\AddLecture.g.cs
+c:\users\kiril\documents\visual studio 2017\Projects\ManagementSystemStudents\ManagementSystemStudents\obj\Debug\AddStudent.g.cs
+c:\users\kiril\documents\visual studio 2017\Projects\ManagementSystemStudents\ManagementSystemStudents\obj\Debug\AddSubject.g.cs
+c:\users\kiril\documents\visual studio 2017\Projects\ManagementSystemStudents\ManagementSystemStudents\obj\Debug\MainWindow.g.cs
+c:\users\kiril\documents\visual studio 2017\Projects\ManagementSystemStudents\ManagementSystemStudents\obj\Debug\App.g.cs
+c:\users\kiril\documents\visual studio 2017\Projects\ManagementSystemStudents\ManagementSystemStudents\obj\Debug\ManagementSystemStudents_MarkupCompile.cache
+c:\users\kiril\documents\visual studio 2017\Projects\ManagementSystemStudents\ManagementSystemStudents\obj\Debug\ManagementSystemStudents_MarkupCompile.lref
+c:\users\kiril\documents\visual studio 2017\Projects\ManagementSystemStudents\ManagementSystemStudents\obj\Debug\GroupInfo.g.cs
+c:\users\kiril\documents\visual studio 2017\Projects\ManagementSystemStudents\ManagementSystemStudents\bin\Debug\ManagementSystemStudents.exe.config
+c:\users\kiril\documents\visual studio 2017\Projects\ManagementSystemStudents\ManagementSystemStudents\bin\Debug\ManagementSystemStudents.exe
+c:\users\kiril\documents\visual studio 2017\Projects\ManagementSystemStudents\ManagementSystemStudents\bin\Debug\ManagementSystemStudents.pdb
+c:\users\kiril\documents\visual studio 2017\Projects\ManagementSystemStudents\ManagementSystemStudents\obj\Debug\AddLecture.baml
+c:\users\kiril\documents\visual studio 2017\Projects\ManagementSystemStudents\ManagementSystemStudents\obj\Debug\AddStudent.baml
+c:\users\kiril\documents\visual studio 2017\Projects\ManagementSystemStudents\ManagementSystemStudents\obj\Debug\AddSubject.baml
+c:\users\kiril\documents\visual studio 2017\Projects\ManagementSystemStudents\ManagementSystemStudents\obj\Debug\GroupInfo.baml
+c:\users\kiril\documents\visual studio 2017\Projects\ManagementSystemStudents\ManagementSystemStudents\obj\Debug\MainWindow.baml
+c:\users\kiril\documents\visual studio 2017\Projects\ManagementSystemStudents\ManagementSystemStudents\obj\Debug\ManagementSystemStudents.g.resources
+c:\users\kiril\documents\visual studio 2017\Projects\ManagementSystemStudents\ManagementSystemStudents\obj\Debug\ManagementSystemStudents.Properties.Resources.resources
+c:\users\kiril\documents\visual studio 2017\Projects\ManagementSystemStudents\ManagementSystemStudents\obj\Debug\ManagementSystemStudents.csproj.GenerateResource.Cache
+c:\users\kiril\documents\visual studio 2017\Projects\ManagementSystemStudents\ManagementSystemStudents\obj\Debug\ManagementSystemStudents.exe
+c:\users\kiril\documents\visual studio 2017\Projects\ManagementSystemStudents\ManagementSystemStudents\obj\Debug\ManagementSystemStudents.pdb
+C:\Users\kiril\Desktop\ManagementSystemStudents\ManagementSystemStudents\bin\Debug\ManagementSystemStudents.exe
+C:\Users\kiril\Desktop\ManagementSystemStudents\ManagementSystemStudents\bin\Debug\ManagementSystemStudents.exe.config
+C:\Users\kiril\Desktop\ManagementSystemStudents\ManagementSystemStudents\obj\Debug\View\AddLecture.g.cs
+C:\Users\kiril\Desktop\ManagementSystemStudents\ManagementSystemStudents\obj\Debug\View\AddStudent.g.cs
+C:\Users\kiril\Desktop\ManagementSystemStudents\ManagementSystemStudents\obj\Debug\View\AddSubject.g.cs
+C:\Users\kiril\Desktop\ManagementSystemStudents\ManagementSystemStudents\obj\Debug\View\GroupInfo.g.cs
+C:\Users\kiril\Desktop\ManagementSystemStudents\ManagementSystemStudents\obj\Debug\View\MainWindow.g.cs
+C:\Users\kiril\Desktop\ManagementSystemStudents\ManagementSystemStudents\obj\Debug\App.g.cs
+C:\Users\kiril\Desktop\ManagementSystemStudents\ManagementSystemStudents\obj\Debug\ManagementSystemStudents_MarkupCompile.cache
+C:\Users\kiril\Desktop\ManagementSystemStudents\ManagementSystemStudents\obj\Debug\ManagementSystemStudents_MarkupCompile.lref
+C:\Users\kiril\Desktop\ManagementSystemStudents\ManagementSystemStudents\obj\Debug\View\AddLecture.baml
+C:\Users\kiril\Desktop\ManagementSystemStudents\ManagementSystemStudents\obj\Debug\View\AddStudent.baml
+C:\Users\kiril\Desktop\ManagementSystemStudents\ManagementSystemStudents\obj\Debug\View\AddSubject.baml
+C:\Users\kiril\Desktop\ManagementSystemStudents\ManagementSystemStudents\obj\Debug\View\GroupInfo.baml
+C:\Users\kiril\Desktop\ManagementSystemStudents\ManagementSystemStudents\obj\Debug\View\MainWindow.baml
+C:\Users\kiril\Desktop\ManagementSystemStudents\ManagementSystemStudents\obj\Debug\ManagementSystemStudents.g.resources
+C:\Users\kiril\Desktop\ManagementSystemStudents\ManagementSystemStudents\obj\Debug\ManagementSystemStudents.Properties.Resources.resources
+C:\Users\kiril\Desktop\ManagementSystemStudents\ManagementSystemStudents\obj\Debug\ManagementSystemStudents.csproj.GenerateResource.Cache
+C:\Users\kiril\Desktop\ManagementSystemStudents\ManagementSystemStudents\obj\Debug\ManagementSystemStudents.exe
+C:\Users\kiril\Desktop\ManagementSystemStudents\ManagementSystemStudents\obj\Debug\ManagementSystemStudents.pdb
+C:\Users\kiril\Desktop\ManagementSystemStudents\ManagementSystemStudents\bin\Debug\ManagementSystemStudents.pdb
+C:\Users\kiril\Desktop\ManagementSystemStudents\ManagementSystemStudents\obj\Debug\ManagementSystemStudents.csprojResolveAssemblyReference.cache
+C:\Users\kiril\Desktop\ManagementSystemStudents\ManagementSystemStudents\obj\Debug\GeneratedInternalTypeHelper.g.cs
