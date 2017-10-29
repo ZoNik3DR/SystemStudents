@@ -53,6 +53,7 @@
                     <Setter Property="VerticalContentAlignment" Value="Stretch"/>
                 </Style>
             </ListView.ItemContainerStyle>
+            
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <Border Background="LightGray" Padding="10">

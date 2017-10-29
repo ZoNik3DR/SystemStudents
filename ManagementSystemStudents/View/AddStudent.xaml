@@ -4,15 +4,18 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ManagementSystemStudents"
+        xmlns:Rules="clr-namespace:ManagementSystemStudents.ValidationRules"
         mc:Ignorable="d"
         Title="Student" Height="500" Width="500" ResizeMode="NoResize">
 
 
     <Window.Resources>
         <CollectionViewSource x:Key="ComboBoxCollection" Source="{Binding Path=GroupsLink}"/>
+        <CollectionViewSource x:Key="StudentPrevGroups" Source="{Binding Path=Student.PrevGroups, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
         <Style TargetType="TextBlock">
             <Setter Property="FontSize" Value="14" />
+            
         </Style>
         <Style TargetType="TextBox">
             <Setter Property="FontSize" Value="14" />
@@ -48,12 +51,25 @@
             <DockPanel LastChildFill="True" HorizontalAlignment="Stretch">
                 <TextBlock Text="Marks" HorizontalAlignment="Center" DockPanel.Dock="Top" />
                 <DockPanel DockPanel.Dock="Bottom" HorizontalAlignment="Center">
-                    <Button DockPanel.Dock="Left" MinHeight="25" Width="50">Add</Button>
-                    <Button DockPanel.Dock="Right" MinHeight="25" Width="50">Delete</Button>
+                    <Button DockPanel.Dock="Left" MinHeight="25" Width="50" Command="{Binding AddMarkSubjectCommand}">Add</Button>
+                    <Button DockPanel.Dock="Right" MinHeight="25" Width="50" Command="{Binding DeleteMarkSubject}">Delete</Button>
                 </DockPanel>
-                <ListBox DockPanel.Dock="Top" MinHeight="280" Margin="20,0,0,0">
-                    <ListBoxItem>6535</ListBoxItem>
-                </ListBox>
+
+
+                <DataGrid x:Name="DataGridMarks" ItemsSource="{Binding Student.MarkSubjects}" SelectedItem="{Binding Student.SelectedMarkSubject}"  DockPanel.Dock="Top" MinHeight="280" Margin="20,0,0,0" CanUserAddRows="True" CanUserDeleteRows="True" AutoGenerateColumns="False" IsSynchronizedWithCurrentItem="False">
+                    <DataGrid.ColumnHeaderStyle>
+                        <Style TargetType="{x:Type DataGridColumnHeader}">
+                            <Setter Property="FontWeight"  Value="Bold" />
+                            <Setter Property="HorizontalAlignment" Value="Stretch" />
+                            <Setter Property="HorizontalContentAlignment" Value="Center" />
+                        </Style>
+                    </DataGrid.ColumnHeaderStyle>
+
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Width="*" Header="Subject" Binding="{Binding SubName}"/>
+                        <DataGridTextColumn Width="*" Header="Exam" Binding="{Binding Exam}" />
+                    </DataGrid.Columns> 
+                </DataGrid>
             </DockPanel>
 
 
@@ -76,18 +92,53 @@
                 <TextBlock FontSize="16" FontWeight="DemiBold" Text="Personal info" HorizontalAlignment="Center" />
                 <TextBlock></TextBlock>
                 <TextBlock Text="Name" />
-                <TextBox Text="{Binding Student.Name, UpdateSourceTrigger=PropertyChanged}" />
+                <TextBox Style="{StaticResource textBoxInError}">
+                        <TextBox.Text>
+                            <Binding Path="Student.Name" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <Rules:NameRule/>
+                            </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                </TextBox>
+                
+                
                 <TextBlock Text="Surname" />
-                <TextBox Text="{Binding Student.SurName,UpdateSourceTrigger=PropertyChanged}" />
+                <TextBox Style="{StaticResource textBoxInError}">
+                    <TextBox.Text>
+                        <Binding Path="Student.SurName" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <Rules:NameRule/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
                 <TextBlock Text="Midname" />
-                <TextBox Text="{Binding Student.MidName,UpdateSourceTrigger=PropertyChanged}" />
+                <TextBox Style="{StaticResource textBoxInError}">
+                    <TextBox.Text>
+                        <Binding Path="Student.MidName" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <Rules:NameRule/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
             </StackPanel>
 
             <StackPanel Grid.Column="1" Grid.Row="0" Margin="20,20,20,20">
                 <TextBlock FontSize="16" FontWeight="DemiBold"  Text="Work info" HorizontalAlignment="Center" />
                 <TextBlock></TextBlock>
                 <TextBlock Text="Year of receipt" />
-                <TextBox Text="{Binding Student.ReceiptYear,UpdateSourceTrigger=PropertyChanged}" />
+                <TextBox Style="{StaticResource textBoxInError}">
+                    <TextBox.Text>
+                        <Binding Path="Student.ReceiptYear" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                            <Rules:YearRule/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+                </TextBox>
+
                 <TextBlock Text="Group" />
                 <ComboBox Name="GroupChoose" Margin="0,0,0,20" SelectedItem="{Binding Student.CurrentGroup}" DisplayMemberPath="GroupNum">
                     <ComboBox.ItemsSource>
@@ -101,16 +152,19 @@
 
             <DockPanel Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Margin="20,0,20,20" HorizontalAlignment="Stretch" LastChildFill="True">
                 <TextBlock Text="Previous Groups" HorizontalAlignment="Center" DockPanel.Dock="Top"/>
-                <!-- <Button DockPanel.Dock="Bottom" MinHeight="25" HorizontalAlignment="Center">Delete</Button>-->
-                    <ListView >
-                        
-                    </ListView>
-                </TextBlock>
+                <Button DockPanel.Dock="Bottom" MinHeight="25" HorizontalAlignment="Center" Command="{Binding DeleteSelectedPrevGroup}">Delete</Button>
+                <ListView SelectedItem="{Binding Student.SelectedPrevGroup}">
+                    <ListView.ItemsSource>
+                        <CompositeCollection>
+                            <CollectionContainer Collection="{Binding Source={StaticResource StudentPrevGroups}}"/>
+                        </CompositeCollection>
+                    </ListView.ItemsSource>
+                </ListView>
             </DockPanel>
 
-            
+
         </Grid>
-        <Button Grid.Row="2" Grid.Column="1" Width="100" Margin="20,10,20,10" Name="DeleteButton">Deduct</Button>
+        <Button Grid.Row="2" Grid.Column="1" Width="100" Margin="20,10,20,10" Name="DeleteButton" Command="{Binding Delete}">Deduct</Button>
         <Button Grid.Row="2" Grid.Column="0" Width="100" Margin="20,10,20,10" Name="Save" Command="{Binding Save}">Save</Button>
     </Grid>
 </Window>

@@ -14,7 +14,9 @@ namespace ManagementSystemStudents.ViewModels
 
         private Student selectedStudent;
         private Group selectedGroup;
-        private ObservableCollection<Student> FullListStudents; 
+        private ObservableCollection<Student> FullListStudents;
+
+        public ObservableCollection<Group> DisbandedGroups{ get; set; }
 
         public ObservableCollection<Group> GroupsList { get; set; }
         public ObservableCollection<Student> StudentsList { get; set; }

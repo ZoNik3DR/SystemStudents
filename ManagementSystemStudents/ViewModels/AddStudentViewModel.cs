@@ -39,6 +39,52 @@ namespace ManagementSystemStudents.ViewModels
             this.obj = obj;
         }
 
+
+
+        private RelayCommand deleteSelectedPrevGroup;
+        public RelayCommand DeleteSelectedPrevGroup
+        {
+            get
+            {
+                return deleteSelectedPrevGroup ??
+                  (deleteSelectedPrevGroup = new RelayCommand(obj =>
+                  {
+                     if(Student.SelectedPrevGroup!=null)
+                          Student.PrevGroups.Remove(Student.SelectedPrevGroup);
+                  }));
+            }
+        }
+
+        private RelayCommand addMarkSubjectCommand;
+        public RelayCommand AddMarkSubjectComman
+        {
+            get
+            {
+                return addMarkSubjectCommand ??
+                  (addMarkSubjectCommand = new RelayCommand(obj =>
+                  {
+                      Student.MarkSubjects.Add(new MarkSubject("name", 0));
+                  }));
+            }
+        }
+
+
+        private RelayCommand deleteMarkSubject;
+        public RelayCommand DeleteMarkSubject
+        {
+            get
+            {
+                return deleteMarkSubject ??
+                  (deleteMarkSubject = new RelayCommand(obj =>
+                  {
+                      
+                      if (obj!=null)
+                         Student.MarkSubjects.Remove((MarkSubject)SelectedMarkSubject);
+                  }));
+            }
+        }
+
+
         private RelayCommand save;
         public RelayCommand Save
         {

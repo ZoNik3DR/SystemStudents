@@ -90,9 +90,7 @@
                 </ComboBox.ItemsSource>
             </ComboBox>
             <TextBlock Text="DisbannedStatus" />
-            <ComboBox SelectedItem="{Binding Group.IsDisbanded}" IsEnabled="False" SelectedIndex="0">
-                <ComboBoxItem>False</ComboBoxItem>
-            </ComboBox>
+            <TextBlock Text="{Binding Group.IsDisbanded}"></TextBlock>
             <TextBlock Text="Term" />
             <ComboBox ItemsSource="{Binding Group.Terms, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding Group.SelectedTerm, UpdateSourceTrigger=PropertyChanged}">
             </ComboBox>
@@ -101,7 +99,7 @@
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="Lecture" Width="80" DisplayMemberBinding="{Binding Path=Name}"/>
-                        <!--<GridViewColumn Header="Subject" Width="200" DisplayMemberBinding="{Binding Path=S}" /> -->
+                        <GridViewColumn Header="Subject" Width="200" DisplayMemberBinding="{Binding Path=SubjectName}"/>
                     </GridView>
                 </ListView.View>
             </ListView>

@@ -116,7 +116,12 @@ namespace ManagementSystemStudents.ViewModels
                   {
                       Group.IsDisbanded = true;
                       MessageBox.Show("Group disbanded.");
-
+                      for (int i = 0; i < StudentsLink.Count; ++i)
+                          StudentsLink[i].CurrentGroup = null;
+                      studentsLink = null;
+                      OnPropertyChanged("StudentsLink");
+                      Group.Captain = null;
+                      OnPropertyChanged("Captain");
        //               wind.Close();
                   }));
             }

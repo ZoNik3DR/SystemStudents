@@ -6,30 +6,53 @@ using System.Threading.Tasks;
 using ManagementSystemStudents.ViewModels;
 using System.Collections.Specialized;
 using System.Collections.ObjectModel;
+using System.Text.RegularExpressions;
 
 
 namespace ManagementSystemStudents.ViewModels
 {
-    public class MarkSubject
+    public class MarkSubject : ViewModelBase
     {
-        private string subname { get; set; }
-        private int exam;
-
-        public MarkSubject(string name)
+        private string subname;
+        public string SubName
         {
-            subname = name;
+            get => subname;
+            set
+            {
+                subname = value;
+                OnPropertyChanged("SubName");
+            }
         }
 
-        int Exam
+
+        private int exam;
+        public int Exam
         {
             get => exam;
             set
             {
-                if (value > 10)
-                    throw new ArgumentOutOfRangeException();
                 exam = value;
+                OnPropertyChanged("Exam");
             }
         }
+
+
+        public MarkSubject(string name, int mark)
+        {
+            SubName= name;
+            Exam = mark;
+        }
+
+        //int Exam
+        //{
+        //    get => exam;
+        //    set
+        //    {
+        //        if (value > 10)
+        //            throw new ArgumentOutOfRangeException();
+        //        exam = value;
+        //    }
+        //}
     }
 
 
@@ -38,41 +61,46 @@ namespace ManagementSystemStudents.ViewModels
         //field & properties
 
 
-        private List<MarkSubject> subjects;
-        public List<MarkSubject> Subjects
+        private object selectedMarkSubject;
+        public object SelectedMarkSubject
         {
-            get { return subjects; }
+            get { return selectedMarkSubject; }
             set
             {
-                subjects = value;
-                OnPropertyChanged("Subjects");
+                selectedMarkSubject = value;
+                OnPropertyChanged("SelectedMarkSubject");
             }
         }
 
-        void AddSubject(MarkSubject Sub)
+        private ObservableCollection<MarkSubject> marksubjects;
+        public ObservableCollection<MarkSubject> MarkSubjects
         {
-            Subjects.Add(Sub);
-            OnPropertyChanged("MarkSubjects");
+            get { return marksubjects; }
+            set
+            {
+                marksubjects = value;
+                OnPropertyChanged("MarkSubjects");
+            }
         }
 
-
+    
         private Group currentgroup;
         public Group CurrentGroup
         {
             get { return currentgroup; }
             set
             {
-                PrevGroups += currentgroup?.GroupNum + "\n";
+                if (currentgroup !=null)
+                    PrevGroups.Add(currentgroup.GroupNum);
                 OnPropertyChanged("PrevGroups");
                 currentgroup = value;
                 OnPropertyChanged("CurrentGroup");
                 OnPropertyChanged("GetGroupNum");
-
             }
         }
 
-        private Group selectedPrevGroup;
-        public Group SelectedPrevGroup
+        private string selectedPrevGroup;
+        public string SelectedPrevGroup
         {
             get { return selectedPrevGroup; }
             set
@@ -83,18 +111,19 @@ namespace ManagementSystemStudents.ViewModels
         }
 
 
-        public List<string> prevGroups;
-        public List<string> PrevGroups
+        private ObservableCollection<string> prevGroups;
+        public ObservableCollection<string> PrevGroups
         {
             get { return prevGroups; }
             set
             {
                 prevGroups = value;
                 OnPropertyChanged("PrevGroups");
+
             }
         }
 
-
+       
 
 
         private string name;
@@ -151,19 +180,16 @@ namespace ManagementSystemStudents.ViewModels
 
 
         public Student(string name, string surName, string midName, string photourl,
-            int receiptYear, List<MarkSubject> Subjects, Group currentGroup)
+            int receiptYear, ObservableCollection<MarkSubject> Subjects, Group currentGroup)
         {
             this.Name = name;
             this.SurName = surName;
             this.MidName = midName;
-            //        if (prevGroups == null)
-            //              this.prevGroups = new List<string>();
-            //            else this.PrevGroups = prevGroups;
-            PrevGroups += "text" + "\n";
+            prevGroups = new ObservableCollection<string>();
             this.CurrentGroup = currentGroup;
             if (Subjects == null)
-                Subjects = new List<MarkSubject>();
-            else this.Subjects = Subjects;
+                marksubjects = new ObservableCollection<MarkSubject>();
+            else this.MarkSubjects = Subjects;
             
                        
         }
