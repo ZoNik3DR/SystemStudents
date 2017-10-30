@@ -21,7 +21,6 @@ namespace ManagementSystemStudents
     public partial class GroupInfo : Window
     {
 
-
         public GroupInfo()
         {
             InitializeComponent();
@@ -38,8 +37,6 @@ namespace ManagementSystemStudents
             AddGroupViewModel AddGroupViewModel = new AddGroupViewModel(obj, sender, this);
             this.DataContext = AddGroupViewModel;
             this.Show();
-            
         }
-
     }
 }

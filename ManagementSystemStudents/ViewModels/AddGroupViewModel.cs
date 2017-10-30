@@ -15,24 +15,11 @@ namespace ManagementSystemStudents.ViewModels
         private Group group;
         public Group Group => group;
 
-
-
         private ObservableCollection<Student> studentsLink;
         public ObservableCollection<Student> StudentsLink => studentsLink;
 
-        private Teacher selectedLecture;
-        public Teacher SelectedLecture
-        {
-            get { return selectedLecture; }
-            set
-            {
-                selectedLecture = value;
-                OnPropertyChanged("SelectedLecture");
-            }
-        }
-
-        private ObservableCollection<Teacher> lecturesList;
-        public ObservableCollection<Teacher> LecturesList => lecturesList;
+        private ObservableCollection<Lecture> lecturesList;
+        public ObservableCollection<Lecture> LecturesList => lecturesList;
 
         private MainViewModel obj;
         public MainViewModel Main => obj;
@@ -49,14 +36,34 @@ namespace ManagementSystemStudents.ViewModels
                 sender = new Group();
                 studentsLink = null;
             }
-            lecturesList = obj.TeachersList;
+            lecturesList = obj.LecturesList;
             group = sender;
             this.wind = wind;
             this.obj = obj;
         }
 
 
+        private Term selectedTerm;
+        public Term SelectedTerm
+        {
+            get { return selectedTerm; }
+            set
+            {
+                selectedTerm = value;
+                OnPropertyChanged("SelectedTerm");
+            }
+        }
 
+        private Lecture selectedLecture;
+        public Lecture SelectedLecture
+        {
+            get { return selectedLecture; }
+            set
+            {
+                selectedLecture = value;
+                OnPropertyChanged("SelectedLecture");
+            }
+        }
 
         private RelayCommand delSubject;
         public RelayCommand DelSubject
@@ -66,9 +73,9 @@ namespace ManagementSystemStudents.ViewModels
                 return delSubject ??
                   (delSubject = new RelayCommand(obj =>
                   {
-                      if (obj != null)
+                      if (SelectedLecture != null)
                       {
-                          Group.SelectedTerm.Teachers.Remove((Teacher)obj);
+                          SelectedTerm.Lectures.Remove(SelectedLecture);
                       }
                   }));
             }
@@ -98,10 +105,9 @@ namespace ManagementSystemStudents.ViewModels
                 return save ??
                   (save = new RelayCommand(obj =>
                   {
-                      if (isNew)
-                          Main.GroupsList.Add(group);
-                      
-                      wind.Close();
+                          if (isNew)
+                              Main.GroupsList.Add(group);
+                          wind.Close();
                   }));
             }
         }
@@ -115,14 +121,15 @@ namespace ManagementSystemStudents.ViewModels
                   (disband = new RelayCommand(obj =>
                   {
                       Group.IsDisbanded = true;
-                      MessageBox.Show("Group disbanded.");
+                      MessageBox.Show("Group disbanded.");                      
                       for (int i = 0; i < StudentsLink.Count; ++i)
                           StudentsLink[i].CurrentGroup = null;
                       studentsLink = null;
                       OnPropertyChanged("StudentsLink");
                       Group.Captain = null;
                       OnPropertyChanged("Captain");
-       //               wind.Close();
+                      Main.GroupsList.Remove(group);
+                      wind.Close();
                   }));
             }
         }

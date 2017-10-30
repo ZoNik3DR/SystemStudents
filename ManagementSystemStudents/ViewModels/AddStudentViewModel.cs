@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 using ManagementSystemStudents.Commands;
+using System.Windows;
 
 
 namespace ManagementSystemStudents.ViewModels
@@ -41,6 +42,17 @@ namespace ManagementSystemStudents.ViewModels
 
 
 
+        private string selectedPrevGroup;
+        public string SelectedPrevGroup
+        {
+            get { return selectedPrevGroup; }
+            set
+            {
+                selectedPrevGroup = value;
+                OnPropertyChanged("SelectedPrevGroup");
+            }
+        }
+
         private RelayCommand deleteSelectedPrevGroup;
         public RelayCommand DeleteSelectedPrevGroup
         {
@@ -49,14 +61,14 @@ namespace ManagementSystemStudents.ViewModels
                 return deleteSelectedPrevGroup ??
                   (deleteSelectedPrevGroup = new RelayCommand(obj =>
                   {
-                     if(Student.SelectedPrevGroup!=null)
-                          Student.PrevGroups.Remove(Student.SelectedPrevGroup);
+                     if(SelectedPrevGroup!=null)
+                          Student.PrevGroups.Remove(SelectedPrevGroup);
                   }));
             }
         }
 
         private RelayCommand addMarkSubjectCommand;
-        public RelayCommand AddMarkSubjectComman
+        public RelayCommand AddMarkSubjectCommand
         {
             get
             {
@@ -77,13 +89,26 @@ namespace ManagementSystemStudents.ViewModels
                 return deleteMarkSubject ??
                   (deleteMarkSubject = new RelayCommand(obj =>
                   {
-                      
-                      if (obj!=null)
-                         Student.MarkSubjects.Remove((MarkSubject)SelectedMarkSubject);
+                      Student.MarkSubjects.Remove((MarkSubject)obj);
                   }));
             }
         }
 
+
+        private RelayCommand delete;
+        public RelayCommand Delete
+        {
+            get
+            {
+                return delete ??
+                  (delete = new RelayCommand(obj =>
+                  {
+                      Main.FullListStudents.Remove(Student);
+                      Main.StudentsList.Remove(student);
+                      wind.Close();
+                  }));
+            }
+        }
 
         private RelayCommand save;
         public RelayCommand Save
@@ -95,7 +120,7 @@ namespace ManagementSystemStudents.ViewModels
                   {
                       if (isNew)
                       {
-                          Main.AddStudentToFullListStudents(student);
+                          Main.FullListStudents.Add(student);
                           Main.StudentsList.Add(student);
                       }
                       wind.Close();

@@ -54,6 +54,8 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Commands\RelayCommand.cs" />
+    <Compile Include="ValidationRules\GroupRule.cs" />
+    <Compile Include="ValidationRules\MarkRule.cs" />
     <Compile Include="ValidationRules\Name.cs" />
     <Compile Include="ValidationRules\YearRule.cs" />
     <Compile Include="ViewModels\AddGroupViewModel.cs" />

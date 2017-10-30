@@ -52,11 +52,11 @@
                 <TextBlock Text="Marks" HorizontalAlignment="Center" DockPanel.Dock="Top" />
                 <DockPanel DockPanel.Dock="Bottom" HorizontalAlignment="Center">
                     <Button DockPanel.Dock="Left" MinHeight="25" Width="50" Command="{Binding AddMarkSubjectCommand}">Add</Button>
-                    <Button DockPanel.Dock="Right" MinHeight="25" Width="50" Command="{Binding DeleteMarkSubject}">Delete</Button>
+                    <Button DockPanel.Dock="Right" MinHeight="25" Width="50" Command="{Binding DeleteMarkSubject}" CommandParameter="{Binding ElementName=DataGridMarks, Path=SelectedItem}">Delete</Button>
                 </DockPanel>
 
 
-                <DataGrid x:Name="DataGridMarks" ItemsSource="{Binding Student.MarkSubjects}" SelectedItem="{Binding Student.SelectedMarkSubject}"  DockPanel.Dock="Top" MinHeight="280" Margin="20,0,0,0" CanUserAddRows="True" CanUserDeleteRows="True" AutoGenerateColumns="False" IsSynchronizedWithCurrentItem="False">
+                <DataGrid x:Name="DataGridMarks"  ItemsSource="{Binding Student.MarkSubjects}"  DockPanel.Dock="Top" MinHeight="280" Margin="20,0,0,0" CanUserAddRows="True" CanUserDeleteRows="True" AutoGenerateColumns="False" IsSynchronizedWithCurrentItem="False">
                     <DataGrid.ColumnHeaderStyle>
                         <Style TargetType="{x:Type DataGridColumnHeader}">
                             <Setter Property="FontWeight"  Value="Bold" />
@@ -64,10 +64,25 @@
                             <Setter Property="HorizontalContentAlignment" Value="Center" />
                         </Style>
                     </DataGrid.ColumnHeaderStyle>
-
                     <DataGrid.Columns>
-                        <DataGridTextColumn Width="*" Header="Subject" Binding="{Binding SubName}"/>
-                        <DataGridTextColumn Width="*" Header="Exam" Binding="{Binding Exam}" />
+                        <DataGridTextColumn Header="Subject" Width="*">
+                            <DataGridTextColumn.Binding>
+                                <Binding Path="SubName" ValidatesOnDataErrors="True">
+                                    <Binding.ValidationRules>
+                                        <Rules:NameRule></Rules:NameRule>
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </DataGridTextColumn.Binding>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Width="*" Header="Exam">
+                            <DataGridTextColumn.Binding>
+                                <Binding Path="Exam" ValidatesOnDataErrors="True">
+                                    <Binding.ValidationRules>
+                                        <Rules:MarkRule></Rules:MarkRule>
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </DataGridTextColumn.Binding>
+                        </DataGridTextColumn>
                     </DataGrid.Columns> 
                 </DataGrid>
             </DockPanel>
@@ -153,7 +168,7 @@
             <DockPanel Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Margin="20,0,20,20" HorizontalAlignment="Stretch" LastChildFill="True">
                 <TextBlock Text="Previous Groups" HorizontalAlignment="Center" DockPanel.Dock="Top"/>
                 <Button DockPanel.Dock="Bottom" MinHeight="25" HorizontalAlignment="Center" Command="{Binding DeleteSelectedPrevGroup}">Delete</Button>
-                <ListView SelectedItem="{Binding Student.SelectedPrevGroup}">
+                <ListView SelectedItem="{Binding SelectedPrevGroup}">
                     <ListView.ItemsSource>
                         <CompositeCollection>
                             <CollectionContainer Collection="{Binding Source={StaticResource StudentPrevGroups}}"/>

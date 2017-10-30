@@ -41,7 +41,7 @@
             <TextBlock FontSize="15" Margin="20,0,0,0">Addition:</TextBlock>
             <Button Content="Add Student" MinHeight="35" Margin="20,0,20,20" Command="{Binding AddStudent}"/>
             <Button Content="Add Group" MinHeight="35" Margin="20,0,20,20" Command="{Binding AddGroup}" CommandParameter="{x:Null}"/>
-            <Button Content="Add Lecture" MinHeight="35" Margin="20,0,20,20" Command="{Binding AddTeacher}"/>
+            <Button Content="Add Lecture" MinHeight="35" Margin="20,0,20,20" Command="{Binding AddLecture}"/>
             <Button Content="Manage Selected Group" MinHeight="35" Margin="20,0,20,20" Command="{Binding AddGroup}" CommandParameter="{Binding SelectedGroup}"/>
 
         </StackPanel>

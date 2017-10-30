@@ -30,13 +30,13 @@ namespace ManagementSystemStudents
 
         public void OnInitAdd(object obj)
         {
-            this.DataContext = new Teacher("LectureName","SubjectName");
+            this.DataContext = new Lecture("LectureName","SubjectName");
             this.obj = obj; 
         }
         private void SaveClick(object sender, RoutedEventArgs e)
         {
-            Teacher Teacher = (Teacher)(this.DataContext);
-            ((MainViewModel)obj).TeachersList.Add(Teacher);
+            Lecture lecture = (Lecture)(this.DataContext);
+            ((MainViewModel)obj).LecturesList.Add(lecture);
             Close();
         }
     }

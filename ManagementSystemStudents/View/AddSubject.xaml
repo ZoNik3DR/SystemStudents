@@ -30,8 +30,8 @@
     <StackPanel Grid.Row="1" Grid.Column="1" >
         <TextBlock Margin ="20,20,20,0" Text="Term" />
         <ComboBox ItemsSource="{Binding AddGroup.Group.Terms}" SelectedItem="{Binding SelectedTerm}"></ComboBox>
-        <TextBlock Text="LectureName"/>
-        <ComboBox ItemsSource="{Binding Main.TeachersList}" SelectedItem="{Binding SelectedLecture}" DisplayMemberPath="Name">
+        <TextBlock Text="Lecture"/>
+        <ComboBox ItemsSource="{Binding Main.LecturesList}" SelectedItem="{Binding SelectedLecture}" DisplayMemberPath="NameAndSubject">
         </ComboBox>
         <Button Content="Save" MinHeight="35" Margin="20,0,20,20" Command="{Binding Save}"/>
 

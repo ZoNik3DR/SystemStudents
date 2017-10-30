@@ -17,8 +17,8 @@ namespace ManagementSystemStudents.ViewModels
         private MainViewModel main;
         public MainViewModel Main => main;
 
-        private Teacher selectedLecture;
-        public Teacher SelectedLecture
+        private Lecture selectedLecture;
+        public Lecture SelectedLecture
         {
             get { return selectedLecture; }
             set
@@ -56,7 +56,6 @@ namespace ManagementSystemStudents.ViewModels
                   {
                       selectedTerm.Add(selectedLecture);
                       wind.Close();
-                      
                   }));
             }
         }

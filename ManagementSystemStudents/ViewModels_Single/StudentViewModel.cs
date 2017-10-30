@@ -24,7 +24,6 @@ namespace ManagementSystemStudents.ViewModels
             }
         }
 
-
         private int exam;
         public int Exam
         {
@@ -36,41 +35,17 @@ namespace ManagementSystemStudents.ViewModels
             }
         }
 
-
         public MarkSubject(string name, int mark)
         {
             SubName= name;
             Exam = mark;
         }
-
-        //int Exam
-        //{
-        //    get => exam;
-        //    set
-        //    {
-        //        if (value > 10)
-        //            throw new ArgumentOutOfRangeException();
-        //        exam = value;
-        //    }
-        //}
     }
 
 
     public class Student : ViewModelBase
     {
         //field & properties
-
-
-        private object selectedMarkSubject;
-        public object SelectedMarkSubject
-        {
-            get { return selectedMarkSubject; }
-            set
-            {
-                selectedMarkSubject = value;
-                OnPropertyChanged("SelectedMarkSubject");
-            }
-        }
 
         private ObservableCollection<MarkSubject> marksubjects;
         public ObservableCollection<MarkSubject> MarkSubjects
@@ -90,26 +65,17 @@ namespace ManagementSystemStudents.ViewModels
             get { return currentgroup; }
             set
             {
-                if (currentgroup !=null)
-                    PrevGroups.Add(currentgroup.GroupNum);
+                if (currentgroup != null)
+                {
+                    if (!PrevGroups.Contains(currentgroup.GroupNum))
+                        PrevGroups.Add(currentgroup.GroupNum);
+                }
                 OnPropertyChanged("PrevGroups");
                 currentgroup = value;
                 OnPropertyChanged("CurrentGroup");
                 OnPropertyChanged("GetGroupNum");
             }
         }
-
-        private string selectedPrevGroup;
-        public string SelectedPrevGroup
-        {
-            get { return selectedPrevGroup; }
-            set
-            {
-                selectedPrevGroup = value;
-                OnPropertyChanged("SelectedPrevGroup");
-            }
-        }
-
 
         private ObservableCollection<string> prevGroups;
         public ObservableCollection<string> PrevGroups
@@ -202,24 +168,11 @@ namespace ManagementSystemStudents.ViewModels
         {
             get { return  CurrentGroup == null ? "Undefined" : currentgroup.GroupNum; }
         }
-    
-        //func 
-
-        //Interface Implementation
-
-        public bool Equals(Student obj)
-        {
-            if (name == obj.name && surname == obj.surname && midname == obj.midname && receiptyear == obj.receiptyear)
-                return true;
-            else return false;
-        }
 
 
+        public bool Equals(Student obj) => name == obj.name && surname == obj.surname && midname == obj.midname && receiptyear == obj.receiptyear;
 
-        public string DisplayName
-        {
-            get { return Name + " " + SurName + " " + MidName;  }
-        }
+        public string DisplayName => Name + " " + SurName + " " + MidName;  
 
     }
 
