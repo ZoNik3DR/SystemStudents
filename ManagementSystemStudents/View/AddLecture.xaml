@@ -4,6 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ManagementSystemStudents"
+        xmlns:Rules="clr-namespace:ManagementSystemStudents.ValidationRules"
+
         mc:Ignorable="d"
         Title="Lecture" Height="250" Width="300">
 
@@ -29,10 +31,27 @@
     </Window.Resources>
 
     <StackPanel Grid.Row="1" Grid.Column="1" >
+
         <TextBlock Margin ="20,20,20,0" Text="Name" />
-        <TextBox Text="{Binding Path=Name}"></TextBox>
+        <TextBox Margin="20,0,20,20"  Style="{StaticResource textBoxInError}">
+            <TextBox.Text>
+                <Binding Path="Name" UpdateSourceTrigger="PropertyChanged">
+                    <Binding.ValidationRules>
+                        <Rules:NameRule/>
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox.Text>
+        </TextBox>
         <TextBlock Text="SubjectName" />
-        <TextBox Text="{Binding Path=SubjectName}"></TextBox>
+        <TextBox Margin="20,0,20,20" Style="{StaticResource textBoxInError}">
+            <TextBox.Text>
+                <Binding Path="SubjectName" UpdateSourceTrigger="PropertyChanged">
+                    <Binding.ValidationRules>
+                        <Rules:NameRule/>
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox.Text>
+        </TextBox>
         <Button Content="Save" MinHeight="35" Margin="20,0,20,20" Click="SaveClick"/>
 
     </StackPanel>

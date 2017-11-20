@@ -28,5 +28,15 @@ namespace ManagementSystemStudents
             InitializeComponent();
         }
 
+        private void CloseClick(object sender, RoutedEventArgs e)
+        {
+            ((MainViewModel)this.DataContext).Exit.CanExecute(null);
+            this.Close();
+        }
+
+        private void PopUpButton(object sender, RoutedEventArgs e)
+        {
+            Popup.IsOpen = true;
+        }
     }
 }

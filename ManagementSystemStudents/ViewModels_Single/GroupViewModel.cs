@@ -8,11 +8,8 @@ using System.Collections.ObjectModel;
 
 namespace ManagementSystemStudents.ViewModels
 {
-
-
-    public class Teacher : ViewModelBase
+    public class Lecture : ViewModelBase
     {
-
         private string subjectname;
         public string SubjectName
         {
@@ -35,8 +32,14 @@ namespace ManagementSystemStudents.ViewModels
             }
         }
 
+        public string NameAndSubject => name + "  " + subjectname;
 
-        public Teacher(string name, string subjectname)
+        public override string ToString()
+        {
+            return NameAndSubject + "\n";
+        }
+
+        public Lecture(string name, string subjectname)
         {
             this.Name = name;
             this.SubjectName = subjectname;
@@ -47,47 +50,25 @@ namespace ManagementSystemStudents.ViewModels
 
     public class Term : ViewModelBase
     {
-
         private int num;
-
-
-        private ObservableCollection<Teacher> teachers;
-        public ObservableCollection<Teacher> Teachers => teachers;
-
-
-        private Teacher selectedTeacher;
-        public Teacher SelectedTeacher
-        {
-            get { return selectedTeacher; }
-            set
-            {
-                selectedTeacher = value;
-                OnPropertyChanged("SelectedTeacher");
-           }
-        }
+        private ObservableCollection<Lecture> lectures;
+        public ObservableCollection<Lecture> Lectures => lectures;
 
         public Term(int num)
         {
-            teachers = new ObservableCollection<Teacher>();
+            lectures = new ObservableCollection<Lecture>();
             this.num = num;
         }
 
-        public void Add(Teacher t)
+        public void Add(Lecture t)
         {
-            teachers.Add(t);
-            OnPropertyChanged("Teachers");
+            lectures.Add(t);
+            OnPropertyChanged("Lectures");
         }
 
-
-
-        public override string ToString()
-        {
-            return num.ToString();
-        }
+        public override string ToString() => num.ToString();
 
     }
-
-
 
     public class Group : ViewModelBase
     {
@@ -103,20 +84,6 @@ namespace ManagementSystemStudents.ViewModels
             }
         }
 
-
-
-        private Student captain;
-        public Student Captain
-        {
-            get { return captain; }
-            set
-            {
-                captain = value;
-                OnPropertyChanged("Captain");
-            }
-        }
-
-
         public bool isdisbanded;
         public bool IsDisbanded
         {
@@ -125,17 +92,6 @@ namespace ManagementSystemStudents.ViewModels
             {
                 isdisbanded = value;
                 OnPropertyChanged("IsDisbanded");
-            }
-        }
-
-        private Term selectedTerm;
-        public Term SelectedTerm
-        {
-            get { return selectedTerm; }
-            set
-            {
-                selectedTerm = value;
-                OnPropertyChanged("SelectedTerm");
             }
         }
 
@@ -150,54 +106,29 @@ namespace ManagementSystemStudents.ViewModels
             }
         }
 
-        public void RaiseEvents()
-        {
-            OnPropertyChanged("Terms");
-            OnPropertyChanged("SelectedTerm");
-        }
-
         //ctors
+        public Group() : this("Undefined") { }
 
-        public Group() : this("Undefined", null) { } 
-
-        public Group(string GroupNum, Student captain=null)
+        public Group(string GroupNum)
         {
             this.GroupNum = GroupNum;
-            this.captain = captain;
             isdisbanded = false;
             terms = new List<Term>(8);
-            for (int i = 0,j=0; i < 8; ++i)
+            for (int i = 0, j = 0; i < 8; ++i)
                 terms.Add(new Term(++j));
         }
 
-        //funcs
-
-        public void setNewCaptain(Student captain)
+        public Group(string groupnum, bool isdisbanded, List<Term> terms)
         {
-            if (captain.CurrentGroup == this)
-                this.captain = captain;
-            else throw new ArgumentException("captain isnt member of the group");
+            GroupNum = groupnum;
+            IsDisbanded = isdisbanded;
+            Terms = terms;
         }
-        public Student getCaptain() => captain;
-
-       
-
-        //public void DisbandGroup()
-        //{
-        //    isDisbanded = true;
-        //}
 
 
         public bool Equals(Group other)
         {
             return GroupNum == other.GroupNum;
         }
-
-       
-
-
-
     }
-
-
 }

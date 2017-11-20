@@ -9,8 +9,15 @@
         Title="MainWindow" Height="450" Width="600">
     <Window.Resources>
         <CollectionViewSource x:Key="ComboBoxCollection" Source="{Binding Path=GroupsList}"/>
+
+        <DataTemplate x:Key="groupingHeaderTemplate">
+            <TextBlock Text="{Binding Path=GroupNum}"
+                       Foreground="Red" FontWeight="Bold" FontSize="12"/>
+        </DataTemplate>
     </Window.Resources>
-    
+
+
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0.8*" />
@@ -18,16 +25,46 @@
         </Grid.ColumnDefinitions>
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="0.5*"/>
-            <RowDefinition Height="3*"/>
-            <RowDefinition Height="0.5*"/>
+            <RowDefinition Height="20*"/>
+            <RowDefinition Height="50*"/>
+            <RowDefinition Height="46*"/>
+            <RowDefinition Height="60*"/>
+            <RowDefinition Height="193*"/>
+            <RowDefinition Height="50*"/>
         </Grid.RowDefinitions>
 
+        <Button Grid.Row="2" Margin="0,0,250,0" Content="" Click="PopUpButton" Grid.RowSpan="3"></Button>
+        <Popup Name="Popup" Grid.Row="2" StaysOpen="False" Placement="Left" PlacementTarget="{Binding ElementName=StudentsView}" Grid.RowSpan="3">
+            <Popup.Child>
+                <Grid Width="200" Height="150" Background="White">
+                    <StackPanel>
+                        <CheckBox Content="Sort by Marks" Margin="20,20,20,20" IsChecked="{Binding MarksChecked, UpdateSourceTrigger=PropertyChanged}" />
+                        <CheckBox Content="Sort by Name" Margin="20,0,20,20" IsChecked="{Binding NameChecked, UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBlock Margin="20,0,0,0" FontSize="14">Search</TextBlock>
+                        <TextBox Text="{Binding SurNameSorting, UpdateSourceTrigger=PropertyChanged}" Margin="20,0,20,20"/>
 
-        <TextBlock Text ="Students List" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"></TextBlock>
-        <TextBlock Grid.Column="1" Text="Choose group" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="15"></TextBlock>
 
-        <StackPanel Grid.Column="1" Grid.Row="1">
+                    </StackPanel>
+                </Grid>
+            </Popup.Child>
+        </Popup>
+
+        <Menu>
+            <MenuItem Header="Menu">
+                <MenuItem Header="Open File" >
+
+                </MenuItem>
+                <MenuItem Header="Save File"/>
+                <Separator />
+                <MenuItem Header="Exit" Command="{Binding Exit}"></MenuItem>
+            </MenuItem>
+        </Menu>
+
+
+        <TextBlock Grid.Row="1" Text ="Students List" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Margin="76,12,75,11"></TextBlock>
+        <TextBlock Grid.Column="1" Grid.Row="1"  Text="Choose group" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="15" Margin="113,15,122,15"></TextBlock>
+
+        <StackPanel Grid.Column="1" Grid.Row="2" Grid.RowSpan="3">
             <ComboBox Margin="20,0,20,20" SelectedItem="{Binding SelectedGroup}" DisplayMemberPath="GroupNum" SelectedIndex="0">
                 <ComboBox.ItemsSource>
                     <CompositeCollection>
@@ -35,24 +72,25 @@
                         <CollectionContainer Collection="{Binding Source={StaticResource ComboBoxCollection}}" />
                     </CompositeCollection>
                 </ComboBox.ItemsSource>
-            </ComboBox> 
+            </ComboBox>
 
-            
+
             <TextBlock FontSize="15" Margin="20,0,0,0">Addition:</TextBlock>
             <Button Content="Add Student" MinHeight="35" Margin="20,0,20,20" Command="{Binding AddStudent}"/>
             <Button Content="Add Group" MinHeight="35" Margin="20,0,20,20" Command="{Binding AddGroup}" CommandParameter="{x:Null}"/>
-            <Button Content="Add Lecture" MinHeight="35" Margin="20,0,20,20" Command="{Binding AddTeacher}"/>
+            <Button Content="Add Lecture" MinHeight="35" Margin="20,0,20,20" Command="{Binding AddLecture}"/>
             <Button Content="Manage Selected Group" MinHeight="35" Margin="20,0,20,20" Command="{Binding AddGroup}" CommandParameter="{Binding SelectedGroup}"/>
 
         </StackPanel>
 
-        <ListView Name="StudentsView"  ItemsSource="{Binding StudentsList}" SelectedItem="{Binding SelectedStudent, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Grid.Column="0" Grid.Row="1" Margin="20,0,0,0">
+        <ListView Name="StudentsView"  ItemsSource="{Binding StudentsList}" SelectedItem="{Binding SelectedStudent, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Grid.Column="0" Grid.Row="2" Margin="20,0,0,0" Grid.RowSpan="3">
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
                     <Setter Property="VerticalContentAlignment" Value="Stretch"/>
                 </Style>
             </ListView.ItemContainerStyle>
+
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <Border Background="LightGray" Padding="10">
@@ -72,12 +110,17 @@
                     </Border>
                 </DataTemplate>
             </ListView.ItemTemplate>
+
+            <ListView.GroupStyle>
+                <GroupStyle HeaderTemplate="{StaticResource groupingHeaderTemplate}"/>
+            </ListView.GroupStyle>
+
         </ListView>
 
-        
 
 
-        <Grid Grid.Column="1" Grid.Row="1">
+
+        <Grid Grid.Column="1" Grid.Row="2" Grid.RowSpan="3">
             <Grid.RowDefinitions>
                 <RowDefinition Height="1*"></RowDefinition>
                 <RowDefinition Height="0.2*"></RowDefinition>
@@ -94,6 +137,8 @@
 
 
         </Grid>
+
+        <Button Grid.Row="5" Grid.Column="1" Margin="30,10,40,10" Command="{Binding Exit}">Exit</Button>
 
     </Grid>
 </Window>

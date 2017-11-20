@@ -6,30 +6,49 @@ using System.Threading.Tasks;
 using ManagementSystemStudents.ViewModels;
 using System.Collections.Specialized;
 using System.Collections.ObjectModel;
+using System.Text.RegularExpressions;
 
 
 namespace ManagementSystemStudents.ViewModels
 {
-    public class MarkSubject
+    public class MarkSubject : ViewModelBase
     {
-        private string subname { get; set; }
-        private int exam;
 
-        public MarkSubject(string name)
+        private string subname;
+        public string SubName
         {
-            subname = name;
+            get => subname;
+            set
+            {
+                subname = value;
+                OnPropertyChanged("SubName");
+            }
         }
 
-        int Exam
+        private int exam;
+        public int Exam
         {
             get => exam;
             set
             {
-                if (value > 10)
-                    throw new ArgumentOutOfRangeException();
+                if (value < 0 || value > 10)
+                    value = 0;
                 exam = value;
+                OnPropertyChanged("Exam");
             }
         }
+
+        public MarkSubject(string name, int mark)
+        {
+            SubName = name;
+            Exam = mark;
+        }
+
+        public override string ToString()
+        {
+            return subname + "\n" + exam;
+        }
+
     }
 
 
@@ -37,24 +56,35 @@ namespace ManagementSystemStudents.ViewModels
     {
         //field & properties
 
+        public int SumOfMarks => marksubjects.Sum(x => x.Exam) ;
 
-        private List<MarkSubject> subjects;
-        public List<MarkSubject> Subjects
+
+        private ObservableCollection<MarkSubject> marksubjects;
+        public ObservableCollection<MarkSubject> MarkSubjects
         {
-            get { return subjects; }
+            get { return marksubjects; }
             set
             {
-                subjects = value;
-                OnPropertyChanged("Subjects");
+                marksubjects = value;
+                OnPropertyChanged("MarkSubjects");
             }
         }
 
-        void AddSubject(MarkSubject Sub)
+        private bool iscaptain;
+        public bool IsCaptain
         {
-            Subjects.Add(Sub);
-            OnPropertyChanged("MarkSubjects");
+            get { return iscaptain; }
+            set
+            {
+                iscaptain = value;
+                OnPropertyChanged("GetGroupNum");
+            }
         }
 
+        public void FirstSetGroup(Group link)
+        {
+            currentgroup = link;
+        }
 
         private Group currentgroup;
         public Group CurrentGroup
@@ -62,40 +92,30 @@ namespace ManagementSystemStudents.ViewModels
             get { return currentgroup; }
             set
             {
-                PrevGroups += currentgroup?.GroupNum + "\n";
+                if (currentgroup != null)
+                {
+                    if (!PrevGroups.Contains(currentgroup.GroupNum))
+                        PrevGroups.Add(currentgroup.GroupNum);
+                }
+                IsCaptain = false;
                 OnPropertyChanged("PrevGroups");
                 currentgroup = value;
                 OnPropertyChanged("CurrentGroup");
                 OnPropertyChanged("GetGroupNum");
-
             }
         }
 
-        private Group selectedPrevGroup;
-        public Group SelectedPrevGroup
-        {
-            get { return selectedPrevGroup; }
-            set
-            {
-                selectedPrevGroup = value;
-                OnPropertyChanged("SelectedPrevGroup");
-            }
-        }
-
-
-        public List<string> prevGroups;
-        public List<string> PrevGroups
+        private ObservableCollection<string> prevGroups;
+        public ObservableCollection<string> PrevGroups
         {
             get { return prevGroups; }
             set
             {
                 prevGroups = value;
                 OnPropertyChanged("PrevGroups");
+
             }
         }
-
-
-
 
         private string name;
         public string Name
@@ -146,55 +166,60 @@ namespace ManagementSystemStudents.ViewModels
             }
         }
 
-        //ctors
-
-
-
-        public Student(string name, string surName, string midName, string photourl,
-            int receiptYear, List<MarkSubject> Subjects, Group currentGroup)
+        public Student(string name, string surName, string midName,
+            int receiptYear, bool iscaptain, List<string> prevgroups, List<MarkSubject> Marks, string groupnum)
         {
+           
             this.Name = name;
             this.SurName = surName;
             this.MidName = midName;
-            //        if (prevGroups == null)
-            //              this.prevGroups = new List<string>();
-            //            else this.PrevGroups = prevGroups;
-            PrevGroups += "text" + "\n";
-            this.CurrentGroup = currentGroup;
-            if (Subjects == null)
-                Subjects = new List<MarkSubject>();
-            else this.Subjects = Subjects;
-            
-                       
+            if (prevgroups == null)
+                prevGroups = new ObservableCollection<string>();
+            else this.prevGroups = new ObservableCollection<string>(prevgroups);
+            this.currentgroup = null;
+            this.iscaptain = iscaptain;
+            if (Marks == null)
+                marksubjects = new ObservableCollection<MarkSubject>();
+            else this.MarkSubjects = new ObservableCollection<MarkSubject>(Marks);
+            this.groupnum = groupnum; // temp solution 
+            if (receiptYear == 0)
+                this.ReceiptYear = DateTime.Now.Year;
+            else ReceiptYear = receiptYear;
+
         }
 
-        public Student(string name="NoName", string surName= "NoName", string midName= "NoName", int receiptYear=0) : this(name, surName, midName, "NoPhoto", receiptYear
-            , null, null) { }
+        public Student(string name = "NoName", string surName = "NoName", string midName = "NoName", int receiptYear =0) : this(name, surName, midName, receiptYear, false, null,
+            null, "")
+        {
+        }
 
-
+        private string groupnum;
         public string GetGroupNum
         {
-            get { return  CurrentGroup == null ? "Undefined" : currentgroup.GroupNum; }
+            get { return CurrentGroup == null ? "Undefined" : currentgroup.GroupNum; }
         }
-    
-        //func 
 
-        //Interface Implementation
+        public string getGroupNumNotLinked => groupnum;
 
-        public bool Equals(Student obj)
+
+
+        public bool Equals(Student obj) => name == obj.name && surname == obj.surname && midname == obj.midname && receiptyear == obj.receiptyear;
+
+        public string DisplayName => Name + " " + SurName + " " + MidName;
+
+
+        public void Deconstruct(out string name, out string surname, out string midname, out int receiptyear,
+            out string groupnum, out bool iscaptain, out string[] prev, out MarkSubject[] Marks)
         {
-            if (name == obj.name && surname == obj.surname && midname == obj.midname && receiptyear == obj.receiptyear)
-                return true;
-            else return false;
+            name = this.name;
+            surname = this.surname;
+            midname = this.midname;
+            receiptyear = this.receiptyear;
+            groupnum = GetGroupNum;
+            iscaptain = this.iscaptain;
+            prev = PrevGroups.ToArray();
+            Marks = this.marksubjects.ToArray();
         }
-
-
-
-        public string DisplayName
-        {
-            get { return Name + " " + SurName + " " + MidName;  }
-        }
-
     }
 
 }

@@ -3,6 +3,19 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:ManagementSystemStudents" Startup="OnStartup">
     <Application.Resources>
-
+        
+        <Style x:Key="textBoxInError" TargetType="{x:Type TextBox}">
+                <Setter Property="FontSize" Value="14" />
+                <Setter Property="MinHeight" Value="25"/>
+                <Setter Property="MinWidth" Value="50"/>
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="true">
+                    <Setter Property="ToolTip"
+        Value="{Binding RelativeSource={x:Static RelativeSource.Self},
+                        Path=(Validation.Errors)[0].ErrorContent}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        
     </Application.Resources>
 </Application>
