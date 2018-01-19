@@ -7,7 +7,8 @@
         xmlns:Rules="clr-namespace:ManagementSystemStudents.ValidationRules"
         xmlns:Converters="clr-namespace:ManagementSystemStudents.Converters"
         mc:Ignorable="d"
-        Title="Student" Height="500" Width="500" ResizeMode="NoResize" Closing="Window_Closing">
+        Title="Student" Height="500" Width="500" ResizeMode="NoResize" Closing="Window_Closing"
+        Style="{StaticResource {x:Type Window}}">
 
 
     <Window.Resources>
@@ -185,6 +186,33 @@
         </Grid>
         <Button Grid.Row="2" Grid.Column="1" Width="100" Margin="20,10,20,10" Name="DeleteButton" Command="{Binding Delete}">Deduct</Button>
         <Button Grid.Row="2" Grid.Column="0" Width="100" Margin="20,10,20,10" Name="Save" Command="{Binding Save}">Save</Button>
+
+        <UniformGrid Grid.Row="0" Grid.Column="1" Rows="1" >
+            <Button Name="FirstButton" HorizontalAlignment="Stretch" DockPanel.Dock="Left" Margin="15,15,15,15" Command="{Binding LoadPage}" CommandParameter="{Binding Name, RelativeSource={RelativeSource Self}}">
+                <Button.Content>
+                    <Image Source="{DynamicResource LeftArrows}"></Image>
+                </Button.Content>
+            </Button>
+
+            <Button Name="PrevButton" HorizontalAlignment="Stretch" DockPanel.Dock="Left"  Margin="15,15,15,15" Command="{Binding LoadPage}" CommandParameter="{Binding Name, RelativeSource={RelativeSource Self}}">
+                <Button.Content>
+                    <Image Source="{DynamicResource LeftArrow}"></Image>
+                </Button.Content>
+            </Button>
+            <Button Name="NextButton" DockPanel.Dock="Left" Margin="15,15,15,15" Command="{Binding LoadPage}" CommandParameter="{Binding Name, RelativeSource={RelativeSource Self}}">
+                <Button.Content>
+                    <Image Source="{DynamicResource RightArrow}"></Image>
+                </Button.Content>
+            </Button>
+
+            <Button Name="LastButton" DockPanel.Dock="Left" Margin="15,15,15,15" Command="{Binding LoadPage}" CommandParameter="{Binding Name, RelativeSource={RelativeSource Self}}">
+                <Button.Content>
+                    <Image Source="{DynamicResource RightArrows}"></Image>
+                </Button.Content>
+            </Button>
+        </UniformGrid>
+        
+
     </Grid>
 </Window>
 

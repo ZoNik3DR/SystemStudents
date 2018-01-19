@@ -1,0 +1,11 @@
+5
+LectureName
+SubjectName
+Lecturer
+SubjectNamer
+LectureNamezz
+SubjectNamezz
+LectureName
+SubjectNames
+Lecture
+SubjectName

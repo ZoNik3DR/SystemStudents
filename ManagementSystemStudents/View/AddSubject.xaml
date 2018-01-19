@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ManagementSystemStudents"
         mc:Ignorable="d"
-        Title="AddSubject" Height="275" Width="350" ResizeMode="NoResize">
+        Title="AddSubject" Height="275" Width="350" ResizeMode="NoResize"
+        Style="{StaticResource {x:Type Window}}">
     <Window.Resources>
         <Style TargetType="TextBlock">
             <Setter Property="FontSize" Value="14" />

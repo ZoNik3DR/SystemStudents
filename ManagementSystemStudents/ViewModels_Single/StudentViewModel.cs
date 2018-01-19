@@ -52,11 +52,11 @@ namespace ManagementSystemStudents.ViewModels
     }
 
 
-    public class Student : ViewModelBase
+    public class Student : ViewModelBase, IEquatable<Student>
     {
         //field & properties
 
-        public int SumOfMarks => marksubjects.Sum(x => x.Exam) ;
+        public int SumOfMarks => marksubjects.Count == 0 ? 0 : marksubjects.Sum(x => x.Exam) / marksubjects.Count;
 
 
         private ObservableCollection<MarkSubject> marksubjects;
@@ -78,6 +78,7 @@ namespace ManagementSystemStudents.ViewModels
             {
                 iscaptain = value;
                 OnPropertyChanged("GetGroupNum");
+                OnPropertyChanged("IsCaptain");
             }
         }
 
@@ -219,6 +220,12 @@ namespace ManagementSystemStudents.ViewModels
             iscaptain = this.iscaptain;
             prev = PrevGroups.ToArray();
             Marks = this.marksubjects.ToArray();
+        }
+
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode() ^ name.GetHashCode() ^ surname.GetHashCode() ^ midname.GetHashCode() ^ groupnum.GetHashCode();
         }
     }
 

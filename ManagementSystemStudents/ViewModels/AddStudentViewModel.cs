@@ -15,22 +15,26 @@ namespace ManagementSystemStudents.ViewModels
         private Student student;
         public Student Student => student;
 
-        
-        
+
+
         private ObservableCollection<Group> groupsLink;
         public ObservableCollection<Group> GroupsLink => groupsLink;
 
         private MainViewModel obj;
-        private MainViewModel Main => obj;
-        private bool isNew; 
+        public MainViewModel Main => obj;
+        private bool isNew;
+        public AddStudent Wind => wind;
         private AddStudent wind;
+
+
+
 
         public AddStudentViewModel(MainViewModel obj, Student sender, AddStudent wind)
         {
             if (sender == null)
             {
                 sender = new Student();
-                if(obj.SelectedGroup?.GroupNum != "Any Group")
+                if (obj.SelectedGroup?.GroupNum != "Any Group")
                     sender.CurrentGroup = (obj).SelectedGroup;
                 isNew = true;
             }
@@ -59,7 +63,7 @@ namespace ManagementSystemStudents.ViewModels
                 return deleteSelectedPrevGroup ??
                   (deleteSelectedPrevGroup = new RelayCommand(obj =>
                   {
-                     if(SelectedPrevGroup!=null)
+                      if (SelectedPrevGroup != null)
                           Student.PrevGroups.Remove(SelectedPrevGroup);
                   }));
             }
@@ -124,9 +128,51 @@ namespace ManagementSystemStudents.ViewModels
                       Group gr = Main.SelectedGroup; // костыль
                       Main.SelectedGroup = null; //
                       Main.SelectedGroup = gr; // 
+                      Main.ApplySorting.Execute(null);
                       wind.Close();
                   }));
             }
         }
+
+        private RelayCommand loadPage;
+        public RelayCommand LoadPage
+        {
+            get
+            {
+                return loadPage ??
+                (loadPage = new RelayCommand(obj => 
+                {
+                    switch ((string)obj)
+                    {
+                        case "NextButton":
+                            {
+                                    wind.DataContext = Main.AsyncLoadCollection.NextPage;
+                            }
+                            break;
+                        case "PrevButton":
+                            {
+                                    wind.DataContext = Main.AsyncLoadCollection.PrevPage;
+                            }
+                            break;
+                        case "FirstButton":
+                            {
+                                if(Main.AsyncLoadCollection.StartPage!=null)
+                                    wind.DataContext = Main.AsyncLoadCollection.StartPage;
+                            }
+                            break;
+                        case "LastButton":
+                            {
+                                if(Main.AsyncLoadCollection.EndPage!=null)
+                                    wind.DataContext = Main.AsyncLoadCollection.EndPage;
+                            }
+                            break;
+                    }
+                    Main.AsyncLoadCollection.LoadNext((AddStudentViewModel)wind.DataContext);
+                    
+                }));
+            }
+
+        }
+
     }
 }

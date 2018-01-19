@@ -35,6 +35,12 @@ namespace ManagementSystemStudents
         }
         private void SaveClick(object sender, RoutedEventArgs e)
         {
+            if (((MainViewModel)obj).LecturesList.Contains((Lecture)(this.DataContext)))
+            {
+                MessageBox.Show("Such lecture already exist");
+                return;
+            }
+
             Lecture lecture = (Lecture)(this.DataContext);
             ((MainViewModel)obj).LecturesList.Add(lecture);
             Close();

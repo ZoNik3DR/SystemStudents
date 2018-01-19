@@ -8,7 +8,7 @@ using System.Collections.ObjectModel;
 
 namespace ManagementSystemStudents.ViewModels
 {
-    public class Lecture : ViewModelBase
+    public class Lecture : ViewModelBase, IEquatable<Lecture>
     {
         private string subjectname;
         public string SubjectName
@@ -39,11 +39,22 @@ namespace ManagementSystemStudents.ViewModels
             return NameAndSubject + "\n";
         }
 
+        public bool Equals(Lecture other)
+        {
+            return name==other.name && subjectname == other.subjectname;
+        }
+
         public Lecture(string name, string subjectname)
         {
             this.Name = name;
             this.SubjectName = subjectname;
         }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode() ^ name.GetHashCode() ^ subjectname.GetHashCode();
+        }
+
 
     }
 
@@ -70,7 +81,7 @@ namespace ManagementSystemStudents.ViewModels
 
     }
 
-    public class Group : ViewModelBase
+    public class Group : ViewModelBase, IEquatable<Group>
     {
         //fiels & properties
         private string groupnum;
@@ -130,5 +141,11 @@ namespace ManagementSystemStudents.ViewModels
         {
             return GroupNum == other.GroupNum;
         }
+
+        public override int GetHashCode()
+        {
+            return groupnum.GetHashCode() ^ base.GetHashCode();
+        }
+
     }
 }

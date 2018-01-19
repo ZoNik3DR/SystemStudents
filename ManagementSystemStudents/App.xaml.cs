@@ -9,6 +9,10 @@ using System.IO;
 using ManagementSystemStudents.ViewModels;
 using System.Collections.ObjectModel;
 using System.IO.Compression;
+using IPluginSpace;
+using System.Reflection;
+using System.Threading;
+using ManagementSystemStudents.HelpClasses;
 
 namespace ManagementSystemStudents
 {
@@ -50,17 +54,17 @@ namespace ManagementSystemStudents
         {
             Path = Environment.CurrentDirectory;
             if (Path.Contains("Debug"))
-                Path =Path.Replace("Debug", "");
+                Path = Path.Replace("Debug", "");
             dbPath = Path + @"DB";
             backupPath = Path + @"backup";
-            
+
         }
 
         public Database(string Path)
         {
             this.Path = Path;
-            this.dbPath = Path + @"DB";
-            this.backupPath = Path + @"backup";
+            this.dbPath = Path + @"\DB";
+            this.backupPath = Path + @"\backup";
         }
 
         private string WriteStudent(Student stud)
@@ -100,7 +104,7 @@ namespace ManagementSystemStudents
             List<string> prev = new List<string>(n);
             for (int i = 0; i < n; ++i)
                 prev.Add(Reader.ReadLine());
-            if(n==0) Reader.ReadLine();
+            if (n == 0) Reader.ReadLine();
             n = int.Parse(Reader.ReadLine());
             List<MarkSubject> Marks = new List<MarkSubject>(n);
             for (int i = 0; i < n; ++i)
@@ -111,7 +115,7 @@ namespace ManagementSystemStudents
                 int exam = int.Parse(Reader.ReadLine());
                 Marks.Add(new MarkSubject(subname, exam));
             }
-            if(n==0) Reader.ReadLine();
+            if (n == 0) Reader.ReadLine();
             return new Student(name, surname, midname, receiptyear, iscaptain, prev, Marks, groupnum); //temp solution
         }
         private List<Student> ReadStudents()
@@ -267,7 +271,7 @@ namespace ManagementSystemStudents
             }
             catch
             { }
-            return groups; 
+            return groups;
         }
 
 
@@ -275,19 +279,20 @@ namespace ManagementSystemStudents
         private void BackUp()
         {
             DirectoryInfo dirbackup = new DirectoryInfo(backupPath);
-            if (!Directory.Exists(backupPath)) 
+            if (!Directory.Exists(backupPath))
                 Directory.CreateDirectory(backupPath);
             else
                 foreach (FileInfo file in dirbackup.GetFiles())
                     file.Delete();
             foreach (var f in Dir.GetFiles())
-                f.CopyTo(backupPath+@"\"+f.Name);
+                f.CopyTo(backupPath + @"\" + f.Name);
         }
 
 
-        public void readFromDb()
+        public void readFromDb(MainViewModel vm)
         {
             Dir = new DirectoryInfo(dbPath);
+         //  Thread.Sleep(3000);
             if (!Dir.Exists)
             {
                 students = new List<Student>();
@@ -303,6 +308,7 @@ namespace ManagementSystemStudents
             lectures = ReadLectures();
             groups = ReadGroups();
             students = ReadStudents();
+            vm.ApendCollections(students, groups, lectures);
         }
 
         public void SaveToDb(List<Student> students, List<Group> groups, List<Lecture> lectures)
@@ -324,45 +330,77 @@ namespace ManagementSystemStudents
 
 
 
+    public class Plugins : List<IPlugin>
+    {
+        private static readonly string pluginsPath = Path.Combine(Directory.GetCurrentDirectory(), "plugins");
+        MainViewModel mvm;
+
+
+        public Plugins(MainViewModel obj)
+        {
+            mvm = obj;
+        }
+
+        public async void Init(string path)
+        {
+            await Task.Delay(2000);
+            DirectoryInfo directPlugins;
+            if (path != null)
+                if (path == Path.GetFullPath(path))
+                    directPlugins = new DirectoryInfo(path);
+                else directPlugins = new DirectoryInfo(Environment.CurrentDirectory.ToString() + path);
+            else return;
+                //directPlugins = new DirectoryInfo(pluginsPath);
+            if (directPlugins.Exists)
+            {
+                var pluginsDll = directPlugins.GetFiles();
+                foreach (var dll in pluginsDll)
+                {
+                    if (dll.Extension == ".dll")
+                    {
+                        Assembly assembly = Assembly.LoadFrom(Path.Combine(pluginsPath, dll.Name));
+                        foreach (var type in assembly.GetExportedTypes())
+                        {
+                            var typeRealPl = type.GetInterface("IPlugin");
+                            if (typeRealPl != null)
+                            {
+                                IPlugin plug = (IPlugin)Activator.CreateInstance(type);
+                                Add(plug);
+                            }
+                        }
+                    }
+                }
+                mvm.LoadMenu(this.ToList());
+            }
+        }
+    }  
+
+
 
 
     public partial class App : Application
     {
         
-
-
-
-       private void OnStartup(object sender, StartupEventArgs e)
+       private async void OnStartup(object sender, StartupEventArgs e)
        {
 
             Database db = new Database();
-            db.readFromDb();
-
-            //List<Group> groups = new List<Group>()
-            //{
-            //    new Group("65454"), new Group("6555"), new Group("6666")
-            //};
-
-            //List<Student> students = new List<Student>()
-            //{
-            //    new Student("Test","Test","Test",0), new Student(), new Student(),
-            //    new Student(), new Student(),
-            //};
-
-            //List<Lecture> teachers = new List<Lecture>()
-            //{
-            //    new Lecture("LectureName1", "OAIP"),
-            //    new Lecture("LectureName2", "ISP"),
-            //    new Lecture("LectureName3", "MATH"),
-            //    new Lecture("LectureName4", "LOGIC"),
-            //};
-
-
-            MainViewModel viewModel = new MainViewModel(db.Groups,db.Students,db.Lectures);
-            
+            MainViewModel viewModel = new MainViewModel();
             MainWindow view = new MainWindow();
+            AsyncXmlReader reader = new AsyncXmlReader();
+            Plugins loadplug = new Plugins(viewModel);
+            string pluginspath = ConfigurationManager.AppSettings["PluginsFolder"];
+
+            
+
+  //          await Task.Run( () => loadplug.Init(pluginspath));
             view.DataContext = viewModel;
             view.Show();
+            viewModel.SetWind(view);
+
+            await Task.Run(() => reader.LoadPic());
+            await Task.Run(() => db.readFromDb(viewModel));
+            await Task.Run( () => reader.LoadHotKeys());
 
         }
 

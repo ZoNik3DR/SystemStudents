@@ -38,5 +38,19 @@ namespace ManagementSystemStudents
         {
             Popup.IsOpen = true;
         }
+
+        private void SortGroupsButton_Click(object sender, RoutedEventArgs e)
+        {
+            PopUpGroups.IsOpen = true;
+        }
+
+        private void ComboBoxGroups_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+        }
+
+        private void ComboBoxGroups_MouseMove(object sender, MouseEventArgs e)
+        {
+            TextBoxGroupsSearch.Text = string.Empty;        
+        }
     }
 }

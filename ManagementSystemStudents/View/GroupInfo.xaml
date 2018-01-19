@@ -7,7 +7,8 @@
         xmlns:Rules="clr-namespace:ManagementSystemStudents.ValidationRules"
         xmlns:mainview="clr-namespace:ManagementSystemStudents.ViewModels"
         mc:Ignorable="d"
-       Title="GroupInfo" Height="600" Width="700" >
+       Title="GroupInfo" Height="600" Width="700" 
+        Style="{StaticResource {x:Type Window}}">
 
 
     <Window.Resources>
@@ -61,10 +62,54 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <Border Background="LightGray" Padding="10">
-                        <StackPanel>
-                            <TextBlock Text="{Binding DisplayName}" FontWeight="Bold"/>
-                        </StackPanel>
+                        <DockPanel LastChildFill="True">
+                            <TextBlock DockPanel.Dock="Left" Text="{Binding DisplayName}"
+                               Margin="0,0,10,0"/>
+                            <Grid Width="20" DockPanel.Dock="Right"/>
+                            <Canvas Visibility="Hidden" Name="Cap">
+                                <Polygon Fill="Yellow" Stroke="Black" 
+                                 Width="20" Height="20" 
+                                 StrokeThickness="1.5" Stretch="Fill"
+                                 Points="9,2 11,7 17,7 12,10 14,15 9,12 4,15 6,10 1,7 7,7">
+                                    <Polygon.Style>
+                                        <Style TargetType="Polygon">
+                                            <Setter Property="Canvas.Left"
+                                            Value="{Binding ActualWidth, ElementName=Cap}"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsSelected,
+                                            RelativeSource={RelativeSource FindAncestor, AncestorType=ListViewItem}}" Value="True">
+                                                    <DataTrigger.EnterActions>
+                                                        <BeginStoryboard>
+                                                            <Storyboard>
+                                                                <DoubleAnimation To="0"
+                                                             Storyboard.TargetProperty="(Canvas.Left)"
+                                                             Duration="0:0:0.3"/>
+                                                            </Storyboard>
+                                                        </BeginStoryboard>
+                                                    </DataTrigger.EnterActions>
+                                                    <DataTrigger.ExitActions>
+                                                        <BeginStoryboard>
+                                                            <Storyboard>
+                                                                <DoubleAnimation
+                                                            Storyboard.TargetProperty="(Canvas.Left)"
+                                                            Duration="0:0:0.3"/>
+                                                            </Storyboard>
+                                                        </BeginStoryboard>
+                                                    </DataTrigger.ExitActions>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Polygon.Style>
+                                </Polygon>
+                            </Canvas>
+                        </DockPanel>
                     </Border>
+                    <DataTemplate.Triggers>
+                        <DataTrigger Binding="{Binding IsCaptain}" Value="true">
+                            <Setter Property="Visibility" Value="Visible" TargetName="Cap" />
+                            <Setter Property="Visibility" Value="Visible" TargetName="Cap" />
+                        </DataTrigger>
+                    </DataTemplate.Triggers>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>

@@ -6,19 +6,21 @@
         xmlns:local="clr-namespace:ManagementSystemStudents"
         xmlns:mainview="clr-namespace:ManagementSystemStudents.ViewModels"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="600">
+        Title="MainWindow" Height="450" Width="625"
+        Style="{StaticResource {x:Type Window}}">
     <Window.Resources>
         <CollectionViewSource x:Key="ComboBoxCollection" Source="{Binding Path=GroupsList}"/>
-
         <DataTemplate x:Key="groupingHeaderTemplate">
             <TextBlock Text="{Binding Path=GroupNum}"
                        Foreground="Red" FontWeight="Bold" FontSize="12"/>
         </DataTemplate>
     </Window.Resources>
 
+    <Window.InputBindings>
+        
+    </Window.InputBindings>
 
-
-    <Grid>
+    <Grid Name="GridName">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0.8*" />
             <ColumnDefinition Width="*"/>
@@ -33,14 +35,19 @@
             <RowDefinition Height="50*"/>
         </Grid.RowDefinitions>
 
-        <Button Grid.Row="2" Margin="0,0,250,0" Content="" Click="PopUpButton" Grid.RowSpan="3"></Button>
+        <Button Grid.Row="2" Margin="0,0,250,0" Click="PopUpButton" Grid.RowSpan="3">
+            <Button.Content>
+                <Image Source="{DynamicResource LeftPlus}"></Image>
+            </Button.Content>
+        </Button>
+
         <Popup Name="Popup" Grid.Row="2" StaysOpen="False" Placement="Left" PlacementTarget="{Binding ElementName=StudentsView}" Grid.RowSpan="3">
             <Popup.Child>
                 <Grid Width="200" Height="150" Background="White">
                     <StackPanel>
                         <CheckBox Content="Sort by Marks" Margin="20,20,20,20" IsChecked="{Binding MarksChecked, UpdateSourceTrigger=PropertyChanged}" />
                         <CheckBox Content="Sort by Name" Margin="20,0,20,20" IsChecked="{Binding NameChecked, UpdateSourceTrigger=PropertyChanged}"/>
-                        <TextBlock Margin="20,0,0,0" FontSize="14">Search</TextBlock>
+                        <TextBlock Margin="20,0,0,0" FontSize="14">Search student</TextBlock>
                         <TextBox Text="{Binding SurNameSorting, UpdateSourceTrigger=PropertyChanged}" Margin="20,0,20,20"/>
 
 
@@ -49,23 +56,51 @@
             </Popup.Child>
         </Popup>
 
-        <Menu>
+        <Menu Name="MainMenu" Focusable="True" Background="LightGray">
             <MenuItem Header="Menu">
-                <MenuItem Header="Open File" >
-
+                <MenuItem Name="OpenM" Header="Open Info" Command="{Binding OpenInfoFromDb}">
+                    <MenuItem.Icon>
+                        <Image Source="{DynamicResource OpenM}"></Image>
+                    </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="Save File"/>
+                <MenuItem Name="SaveM" Header="Save Info" Command="{Binding SaveCurrentInfo}">
+                    <MenuItem.Icon>
+                        <Image Source="{DynamicResource SaveM}"/>
+                    </MenuItem.Icon>
+                </MenuItem>
                 <Separator />
-                <MenuItem Header="Exit" Command="{Binding Exit}"></MenuItem>
+                <MenuItem Name="ExitM" Header="Exit" Command="{Binding Exit}">
+                    <MenuItem.Icon>
+                        <Image Source="{DynamicResource ExitM}"></Image>
+                    </MenuItem.Icon>
+                </MenuItem>
             </MenuItem>
         </Menu>
 
 
         <TextBlock Grid.Row="1" Text ="Students List" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Margin="76,12,75,11"></TextBlock>
-        <TextBlock Grid.Column="1" Grid.Row="1"  Text="Choose group" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="15" Margin="113,15,122,15"></TextBlock>
+        <TextBlock Grid.Column="1" Grid.Row="1"  Text="Choose group" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="15" Margin="100,15,122,15"></TextBlock>
+        <Button Name="SortGroupsButton" Grid.Column="1" Grid.Row="1" Width="20" Margin="290,10,10,10" Height="20" Click="SortGroupsButton_Click">
+            <Button.Content>
+                <Image Source="{DynamicResource RightPlus}"></Image>
+            </Button.Content>
+        </Button>
+        <Popup Name="PopUpGroups" Grid.Row="2" StaysOpen="False" Placement="Right" PlacementTarget="{Binding ElementName=SortGroupsButton}" Grid.RowSpan="3">
+            <Popup.Child>
+                <Grid Width="150" Height="80" Background="White">
+                    <StackPanel>
+                        <TextBlock Margin="20,20,0,0" FontSize="14">Search Group</TextBlock>
+                        <TextBox Name="TextBoxGroupsSearch" Text="{Binding GroupNameSearch, UpdateSourceTrigger=PropertyChanged}" Margin="20,0,20,20"/>
+                    </StackPanel>
+                </Grid>
+            </Popup.Child>
+        </Popup>
+
+
 
         <StackPanel Grid.Column="1" Grid.Row="2" Grid.RowSpan="3">
-            <ComboBox Margin="20,0,20,20" SelectedItem="{Binding SelectedGroup}" DisplayMemberPath="GroupNum" SelectedIndex="0">
+            <ComboBox Name="ComboBoxGroups" Margin="20,0,20,20" SelectedItem="{Binding SelectedGroup}" DisplayMemberPath="GroupNum" SelectedIndex="0"  MouseMove="ComboBoxGroups_MouseMove">
+            
                 <ComboBox.ItemsSource>
                     <CompositeCollection>
                         <mainview:Group GroupNum="Any Group"/>
@@ -79,21 +114,25 @@
             <Button Content="Add Student" MinHeight="35" Margin="20,0,20,20" Command="{Binding AddStudent}"/>
             <Button Content="Add Group" MinHeight="35" Margin="20,0,20,20" Command="{Binding AddGroup}" CommandParameter="{x:Null}"/>
             <Button Content="Add Lecture" MinHeight="35" Margin="20,0,20,20" Command="{Binding AddLecture}"/>
-            <Button Content="Manage Selected Group" MinHeight="35" Margin="20,0,20,20" Command="{Binding AddGroup}" CommandParameter="{Binding SelectedGroup}"/>
+            <Button Name="Manage" Content="Manage Selected Group" MinHeight="35" Margin="20,0,20,20" Command="{Binding AddGroup}" CommandParameter="{Binding SelectedGroup}">
+            </Button>
 
         </StackPanel>
 
-        <ListView Name="StudentsView"  ItemsSource="{Binding StudentsList}" SelectedItem="{Binding SelectedStudent, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Grid.Column="0" Grid.Row="2" Margin="20,0,0,0" Grid.RowSpan="3">
+
+        <ListView  Name="StudentsView"  ItemsSource="{Binding StudentsList}" SelectedItem="{Binding SelectedStudent, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Grid.Column="0" Grid.Row="2" Margin="20,0,0,0" Grid.RowSpan="3">
             <ListView.ItemContainerStyle>
-                <Style TargetType="ListViewItem">
+                <Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="ListViewItem">
                     <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
                     <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+                    
                 </Style>
+                
             </ListView.ItemContainerStyle>
 
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <Border Background="LightGray" Padding="10">
+                    <Border Background="LightGray" Padding="5">
                         <Border.InputBindings>
                             <MouseBinding Gesture="LeftDoubleClick"
                               Command="{Binding DataContext.AddStudent,
@@ -101,20 +140,31 @@
                                       AncestorType=Window}}"
                               CommandParameter="{Binding}"/>
                         </Border.InputBindings>
+
                         <StackPanel>
-                            <TextBlock Text="{Binding DisplayName}" FontWeight="Bold"/>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{Binding GetGroupNum}" Margin="10,0"/>
-                            </StackPanel>
+                            <DockPanel LastChildFill="False">
+                                <TextBlock DockPanel.Dock="Left" Text="{Binding DisplayName}" Margin="0,0,0,0" FontWeight="DemiBold"/>
+                                <Polygon DockPanel.Dock="Right"
+                                     Fill="Yellow" Stroke="Black" 
+                                     Width="20" Height="20" 
+                                     StrokeThickness="1.5" Stretch="Fill"
+                                     Points="9,2 11,7 17,7 12,10 14,15 9,12 4,15 6,10 1,7 7,7"
+                                     Visibility="Hidden" Name="Cap">
+                                </Polygon>
+                            </DockPanel>
+                            <TextBlock Name="Group" DockPanel.Dock="Bottom" Text="{Binding GetGroupNum}" Margin="10,0"/>
                         </StackPanel>
                     </Border>
+                    <DataTemplate.Triggers>
+                        <DataTrigger Binding="{Binding IsCaptain}" Value="true">
+                            <Setter Property="Visibility" Value="Visible" TargetName="Cap" />
+                            <Setter Property="FontWeight" Value="Medium" TargetName="Group"></Setter>
+                        </DataTrigger>
+                    </DataTemplate.Triggers>
                 </DataTemplate>
             </ListView.ItemTemplate>
 
-            <ListView.GroupStyle>
-                <GroupStyle HeaderTemplate="{StaticResource groupingHeaderTemplate}"/>
-            </ListView.GroupStyle>
-
+            
         </ListView>
 
 
@@ -138,7 +188,12 @@
 
         </Grid>
 
-        <Button Grid.Row="5" Grid.Column="1" Margin="30,10,40,10" Command="{Binding Exit}">Exit</Button>
+        <Button Grid.Row="5" Grid.Column="1" Margin="30,10,40,10" Command="{Binding Exit}">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock>Exit</TextBlock>
+            </StackPanel>
+            
+        </Button>
 
     </Grid>
 </Window>

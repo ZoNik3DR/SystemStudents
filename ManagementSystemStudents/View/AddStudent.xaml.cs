@@ -28,13 +28,14 @@ namespace ManagementSystemStudents
             InitializeComponent();
         }
 
-        public void OnInit(MainViewModel obj, Student sender)
+        public AddStudentViewModel OnInit(MainViewModel obj, Student sender)
         {
             if (sender == null)
                 this.DeleteButton.Visibility = System.Windows.Visibility.Hidden;
             AddStudentViewModel AddStudentViewModel = new AddStudentViewModel(obj, sender, this);
             this.DataContext = AddStudentViewModel;
             this.Show();
+            return AddStudentViewModel;
         }
 
         public void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)

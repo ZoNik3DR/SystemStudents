@@ -1,4 +1,4 @@
-5
+12
 LectureName
 SubjectName
 Lecturer
@@ -8,4 +8,18 @@ SubjectNamezz
 LectureName
 SubjectNames
 Lecture
+SubjectName
+LectureName
+SubjectName
+LectureName
+SubjectName
+Lecturer
+SubjectNamer
+LectureNamezz
+SubjectNamezz
+LectureName
+SubjectNames
+Lecture
+SubjectName
+LectureName
 SubjectName

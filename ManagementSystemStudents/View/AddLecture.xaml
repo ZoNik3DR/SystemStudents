@@ -5,6 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ManagementSystemStudents"
         xmlns:Rules="clr-namespace:ManagementSystemStudents.ValidationRules"
+        Style="{StaticResource {x:Type Window}}"
+
 
         mc:Ignorable="d"
         Title="Lecture" Height="250" Width="300">

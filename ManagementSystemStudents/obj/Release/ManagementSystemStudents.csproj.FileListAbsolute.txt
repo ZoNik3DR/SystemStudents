@@ -1,0 +1,9 @@
+C:\Users\kiril\Desktop\lab7\lab6\3,4labsisp\ManagementSystemStudents\obj\Release\View\AddLecture.g.cs
+C:\Users\kiril\Desktop\lab7\lab6\3,4labsisp\ManagementSystemStudents\obj\Release\View\AddStudent.g.cs
+C:\Users\kiril\Desktop\lab7\lab6\3,4labsisp\ManagementSystemStudents\obj\Release\View\AddSubject.g.cs
+C:\Users\kiril\Desktop\lab7\lab6\3,4labsisp\ManagementSystemStudents\obj\Release\View\GroupInfo.g.cs
+C:\Users\kiril\Desktop\lab7\lab6\3,4labsisp\ManagementSystemStudents\obj\Release\View\MainWindow.g.cs
+C:\Users\kiril\Desktop\lab7\lab6\3,4labsisp\ManagementSystemStudents\obj\Release\App.g.cs
+C:\Users\kiril\Desktop\lab7\lab6\3,4labsisp\ManagementSystemStudents\obj\Release\GeneratedInternalTypeHelper.g.cs
+C:\Users\kiril\Desktop\lab7\lab6\3,4labsisp\ManagementSystemStudents\obj\Release\ManagementSystemStudents_MarkupCompile.cache
+C:\Users\kiril\Desktop\lab7\lab6\3,4labsisp\ManagementSystemStudents\obj\Release\ManagementSystemStudents_MarkupCompile.lref
